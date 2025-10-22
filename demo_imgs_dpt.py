@@ -15,6 +15,7 @@ from matplotlib import pyplot as plt
 import argparse
 import logging
 from thop import profile
+import time
 
 def load_image(imfile: str) -> torch.Tensor:
     img = np.array(Image.open(imfile).convert('RGB')).astype(np.uint8)
@@ -38,7 +39,7 @@ def demo(args):
     with torch.no_grad():
         left_images = sorted(glob.glob(args.left_imgs, recursive=True))
         right_images = sorted(glob.glob(args.right_imgs, recursive=True))
-        print(f"Found {len(left_images)} images. Saving files to {output_directory}/")
+        logging.info(f"Found {len(left_images)} images. Saving files to {output_directory}/")
 
         for (imfile1, imfile2) in tqdm(list(zip(left_images, right_images))):
             imfile1 = imfile1.replace('\\', '/')
@@ -49,10 +50,14 @@ def demo(args):
             padder = InputPadder(image1.shape, divis_by=32)
             image1, image2 = padder.pad(image1, image2) 
             # flops, params = profile(model, inputs=(image1, image2, args.valid_iters, True))
-            # print("参数量：", params)
-            # print("FLOPS：", flops)
+            # logging.info("参数量：", params)
+            # logging.info("FLOPS：", flops)
 
+            start_time = time.time()
             disp = model(image1, image2, iters=args.valid_iters, test_mode=True)
+            end_time = time.time()
+            inference_time = end_time - start_time
+            print(f"Inference time: {inference_time:.4f} seconds")
             disp = disp.cpu().numpy()
             disp = padder.unpad(disp)
             file_stem = os.path.basename(imfile1)
@@ -64,8 +69,8 @@ def demo(args):
 if __name__ == '__main__':
     parser = argparse.ArgumentParser()
     parser.add_argument('--restore_ckpt', default='./pretrained_models/sceneflow/dpt_FFLONet.pth', help="load the weights from a specific checkpoint")
-    parser.add_argument('--left_imgs', default='./demo-imgs/*Left.bmp', help="path to all first (left) frames") 
-    parser.add_argument('--right_imgs', default='./demo-imgs/*Right.bmp', help="path to all second (right) frames")
+    parser.add_argument('--left_imgs', default='./demo-imgs/*Left.png', help="path to all first (left) frames") 
+    parser.add_argument('--right_imgs', default='./demo-imgs/*Right.png', help="path to all second (right) frames")
     parser.add_argument('--output_directory', default='./demo-output', help="directory to save output")
     parser.add_argument('--mixed_precision', action='store_true', help="use mixed precision")
     parser.add_argument('--valid_iters', type=int, default=32, help="number of flow-field updates during validation forward pass")

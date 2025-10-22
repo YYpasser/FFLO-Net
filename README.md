@@ -119,7 +119,7 @@ pip install "triton-windows<3.5"   # For dpt_FFLONet: DepthAnythingV2 && Pytorch
 To predict disparity on images in a folder, run
 
 ```Shell
-python demo_imgs.py --left_imgs './demo-imgs/*Left.bmp' --right_imgs './demo-imgs/*Right.bmp'
+python demo_imgs_rt.py --left_imgs './demo-imgs/*Left.png' --right_imgs './demo-imgs/*Right.png'
 ```
 
 ## 🎨 Visualization of Disparity Prediction Results
