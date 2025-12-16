@@ -2,7 +2,7 @@ import torch
 import torch.nn as nn
 import torch.nn.functional as F
 from einops.layers.torch import Rearrange
-from core_dpt.submodule import ConvBlock
+from core_depthany.submodule import ConvBlock
 
 class FeatureFusion(nn.Module):
     
@@ -129,12 +129,12 @@ class hourglass(nn.Module):
             ConvBlock(in_channels*2, in_channels*2, 3, 1, 1, is_3d=True),
             ConvBlock(in_channels*2, in_channels*2, 3, 1, 1, is_3d=True))
         
-        self.feature_att_4     = FeatureAtt(in_channels,    96)
-        self.feature_att_8     = FeatureAtt(in_channels*2,  64)
-        self.feature_att_16    = FeatureAtt(in_channels*4, 192)
-        self.feature_att_32    = FeatureAtt(in_channels*6, 160)
-        self.feature_att_up_16 = FeatureAtt(in_channels*4, 192)
-        self.feature_att_up_8  = FeatureAtt(in_channels*2,  64)
+        self.feature_att_4     = FeatureAtt(in_channels,        96)
+        self.feature_att_8     = FeatureAtt(in_channels*2,   64+96)
+        self.feature_att_16    = FeatureAtt(in_channels*4, 192+192)
+        self.feature_att_32    = FeatureAtt(in_channels*6,     160)
+        self.feature_att_up_16 = FeatureAtt(in_channels*4, 192+192)
+        self.feature_att_up_8  = FeatureAtt(in_channels*2,   64+96)
 
     def forward(self, x, features):
         x04 = self.feature_att_4(x, features[0])

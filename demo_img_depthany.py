@@ -1,5 +1,5 @@
 import sys
-sys.path.append('core_dpt')
+sys.path.append('core_depthany')
 import os
 os.environ['CUDA_VISIBLE_DEVICES'] = '0'
 os.environ['KMP_DUPLICATE_LIB_OK']='TRUE'
@@ -8,13 +8,12 @@ import numpy as np
 import torch
 from tqdm import tqdm
 from pathlib import Path
-from core_dpt.dpt_FFLONet import FFLONet
-from core_dpt.utils.utils import InputPadder, count_parameters
+from core_depthany.depthany_FFLONet import FFLONet
+from core_depthany.utils.utils import InputPadder, count_parameters
 from PIL import Image
 from matplotlib import pyplot as plt
 import argparse
 import logging
-from thop import profile
 import time
 
 def load_image(imfile: str) -> torch.Tensor:
@@ -49,9 +48,6 @@ def demo(args):
 
             padder = InputPadder(image1.shape, divis_by=32)
             image1, image2 = padder.pad(image1, image2) 
-            # flops, params = profile(model, inputs=(image1, image2, args.valid_iters, True))
-            # logging.info("参数量：", params)
-            # logging.info("FLOPS：", flops)
 
             start_time = time.time()
             disp = model(image1, image2, iters=args.valid_iters, test_mode=True)
@@ -62,13 +58,13 @@ def demo(args):
             disp = padder.unpad(disp)
             file_stem = os.path.basename(imfile1)
             file_stem = os.path.splitext(file_stem)[0]
-            plt.imsave(output_directory / f"{file_stem}_dpt_sf.png", disp.squeeze(), cmap='jet')
+            plt.imsave(output_directory / f"{file_stem}_DepthAny_sf.png", disp.squeeze(), cmap='jet')
 
     logging.info(f"Saving file {output_directory.absolute()}.")
 
 if __name__ == '__main__':
     parser = argparse.ArgumentParser()
-    parser.add_argument('--restore_ckpt', default='./pretrained_models/sceneflow/dpt_FFLONet.pth', help="load the weights from a specific checkpoint")
+    parser.add_argument('--restore_ckpt', default='./pretrained_models/sceneflow/FFLONet_DepthAny.pth', help="load the weights from a specific checkpoint")
     parser.add_argument('--left_imgs', default='./demo-imgs/*Left.png', help="path to all first (left) frames") 
     parser.add_argument('--right_imgs', default='./demo-imgs/*Right.png', help="path to all second (right) frames")
     parser.add_argument('--output_directory', default='./demo-output', help="directory to save output")

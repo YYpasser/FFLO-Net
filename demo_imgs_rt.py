@@ -14,7 +14,6 @@ from PIL import Image
 from matplotlib import pyplot as plt
 import argparse
 import logging
-from thop import profile
 import time
 
 def load_image(imfile: str) -> torch.Tensor:
@@ -49,9 +48,6 @@ def demo(args):
 
             padder = InputPadder(image1.shape, divis_by=32)
             image1, image2 = padder.pad(image1, image2) 
-            # flops, params = profile(model, inputs=(image1, image2, args.valid_iters, True))
-            # logging.info("参数量：", params)
-            # logging.info("FLOPS：", flops)
 
             start_time = time.time()
             disp = model(image1, image2, iters=args.valid_iters, test_mode=True)

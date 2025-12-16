@@ -5,34 +5,24 @@ Stereo Matching Network for Tea Shoots.
 
 ```
 ├── /FFLO-Net
-    ├── core     # Standard Version
-        ├── utils
-        ├── *.py
-    ├── core_dpt # DepthAnything Version
-        ├── utils
-        ├── *.py
-    ├── core_rt  # Real-time Version
-        ├── utils
-        ├── *.py
+    ├── core                   # Standard Version
+    ├── core_depthany          # DepthAnything Version
+        ├── depth_anything_v2
+    ├── core_rt                # Real-time Version
     ├── demo-imgs
     ├── demo-output
-    ├── depth_anything_v2
-        ├── dinov2_layers
-        ├── utils
     ├── pretrained_models
         ├── dpt
-            ├── depth_anything_v2_vitb.pth
             ├── depth_anything_v2_vitl.pth
-            ├── depth_anything_v2_vits.pth 
         ├── sceneflow
-            ├── dpt_FFLONet.pth # DepthAnything Version
-            ├── FFLONet.pth     # Standard Version
-            ├── rt_FFLONet.pth  # Real-time Version
+            ├── FFLONet_DepthAny.pth # DepthAnything Version
+            ├── FFLONet.pth          # Standard Version
+            ├── rt_FFLONet.pth       # Real-time Version
         ├── kitti
         ├── eth3d
         ├── middlebury
         ├── mix
-    ├── demo_imgs_dpt.py
+    ├── demo_imgs_depthany.py
     ├── demo_imgs_rt.py
     ├── demo_imgs.py
     ├── README.md

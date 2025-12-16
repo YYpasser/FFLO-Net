@@ -12,8 +12,8 @@ from pathlib import Path
 from glob import glob
 import os.path as osp
 
-from core_dpt.utils import frame_utils
-from core_dpt.utils.augmentor import FlowAugmentor, SparseFlowAugmentor
+from core_depthany.utils import frame_utils
+from core_depthany.utils.augmentor import FlowAugmentor, SparseFlowAugmentor
 
 
 class StereoDataset(data.Dataset):
@@ -267,6 +267,32 @@ class KITTI(StereoDataset):
             self.image_list += [ [img1, img2] ]
             self.disparity_list += [ disp ]
 
+class KITTI2012(StereoDataset):
+    def __init__(self, aug_params=None, root='F:/Datasets/stereo/KITTI/KITTI2012', image_set='training'):
+        super().__init__(aug_params, sparse=True, reader=frame_utils.readDispKITTI)
+        assert os.path.exists(root)
+
+        image1_list = sorted(glob(os.path.join(root, image_set, 'colored_0/*_10.png')))
+        image2_list = sorted(glob(os.path.join(root, image_set, 'colored_1/*_10.png')))
+        disp_list = sorted(glob(os.path.join(root, 'training', 'disp_occ/*_10.png'))) if image_set == 'training' else [osp.join(root, 'training/disp_occ/000085_10.png')]*len(image1_list)
+
+        for idx, (img1, img2, disp) in enumerate(zip(image1_list, image2_list, disp_list)):
+            self.image_list += [ [img1, img2] ]
+            self.disparity_list += [ disp ]
+
+
+class KITTI2015(StereoDataset):
+    def __init__(self, aug_params=None, root='F:/Datasets/stereo/KITTI/KITTI2015', image_set='training'):
+        super().__init__(aug_params, sparse=True, reader=frame_utils.readDispKITTI)
+        assert os.path.exists(root)
+
+        image1_list = sorted(glob(os.path.join(root, image_set, 'image_2/*_10.png')))
+        image2_list = sorted(glob(os.path.join(root, image_set, 'image_3/*_10.png')))
+        disp_list = sorted(glob(os.path.join(root, 'training', 'disp_occ_0/*_10.png'))) if image_set == 'training' else [osp.join(root, 'training/disp_occ_0/000085_10.png')]*len(image1_list)
+
+        for idx, (img1, img2, disp) in enumerate(zip(image1_list, image2_list, disp_list)):
+            self.image_list += [ [img1, img2] ]
+            self.disparity_list += [ disp ]
 
 class Middlebury(StereoDataset):
     def __init__(self, aug_params=None, root='E:/StereoDataset/Middlebury/MiddEval3', split='F'):
