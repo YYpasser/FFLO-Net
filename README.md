@@ -112,6 +112,16 @@ To predict disparity on images in a folder, run
 python demo_imgs_rt.py --left_imgs './demo-imgs/*Left.png' --right_imgs './demo-imgs/*Right.png'
 ```
 
+## ✈️ Export ONNX (Dynamic)
+```Shell
+python export_onnx_rt.py
+```
+
+## ✈️ Export TensorRT (Dynamic)
+```Shell
+trtexec.exe --onnx=RTFFLONetDynamic.onnx --saveEngine=RTFFLONetDynamic.trt --minShapes=leftImage:1x3x480x640,rightImage:1x3x480x640 --optShapes=leftImage:1x3x736x1280,rightImage:1x3x736x1280 --maxShapes=leftImage:1x3x1088x1920,rightImage:1x3x1088x1920
+```
+
 ## 🎨 Visualization of Disparity Prediction Results
 <div align="center">
     <div style="display: inline-block; width: 100%;">
@@ -120,15 +130,23 @@ python demo_imgs_rt.py --left_imgs './demo-imgs/*Left.png' --right_imgs './demo-
     </div>
     <div style="display: inline-block; width: 100%;">
         <img src="demo-output/0045-Left_sf.png" width="100%" alt="dst">
-        <p style="text-align: center; margin-top: 5px; color: #ff0000;">FFLONet + sceneflow</p>
-    </div>
-    <div style="display: inline-block; width: 100%;">
-        <img src="demo-output/0045-Left_rt_sf.png" width="100%" alt="dst">
-        <p style="text-align: center; margin-top: 5px; color: #0000ff;">RTFFLONet + sceneflow</p>
+        <p style="text-align: center; margin-top: 5px; color: #ff0000;">FFLONet (SceneFlow)</p>
     </div>
     <div style="display: inline-block; width: 100%;">
         <img src="demo-output/0045-Left_DepthAny_sf.png" width="100%" alt="dst">
-        <p style="text-align: center; margin-top: 5px; color: #ff00ff;">FFLONetDepthAny + sceneflow</p>
+        <p style="text-align: center; margin-top: 5px; color: #ff00ff;">FFLONetDepthAny (SceneFlow)</p>
+    </div>
+    <div style="display: inline-block; width: 100%;">
+        <img src="demo-output/0045-Left_rt_sf.png" width="100%" alt="dst">
+        <p style="text-align: center; margin-top: 5px; color: #0000ff;">RTFFLONet (SceneFlow) </p>
+    </div>
+    <div style="display: inline-block; width: 100%;">
+        <img src="demo-output/0045-Left_rt_dynamic_trt.png" width="100%" alt="dst">
+        <p style="text-align: center; margin-top: 5px; color: #0000ff;">RTFFLONet (SceneFlow, Dynamic, TensorRT) </p>
+    </div>
+    <div style="display: inline-block; width: 100%;">
+        <img src="demo-output/PlaytableP_Left_rt_dynamic_trt.png" width="100%" alt="dst">
+        <p style="text-align: center; margin-top: 5px; color: #0000ff;">RTFFLONet (SceneFlow, Dynamic, TensorRT) </p>
     </div>
 </div>
 
