@@ -34,7 +34,7 @@ def demo(args):
     # netron.start(f)
     left_images = sorted(glob.glob(args.left_imgs, recursive=True))
     right_images = sorted(glob.glob(args.right_imgs, recursive=True))
-    output_directory = Path("./demo-output")
+    output_directory = Path(args.output_directory)
     for (imfile1, imfile2) in tqdm(list(zip(left_images, right_images))):
         imfile1 = imfile1.replace('\\', '/')
         imfile2 = imfile2.replace('\\', '/')
@@ -51,7 +51,7 @@ def demo(args):
         disp = padder.unpad(disp)
         file_stem = os.path.basename(imfile1)
         file_stem = os.path.splitext(file_stem)[0]
-        plt.imsave(output_directory / f"{file_stem}_rt_dynamic.png", disp.squeeze(), cmap='jet')
+        plt.imsave(output_directory / f"{file_stem}_rt_dynamic_onnx.png", disp.squeeze(), cmap='jet')
 
 if __name__ == '__main__':
     parser = argparse.ArgumentParser()

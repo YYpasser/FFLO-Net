@@ -113,11 +113,23 @@ python demo_imgs_rt.py --left_imgs './demo-imgs/*Left.png' --right_imgs './demo-
 ```
 
 ## ✈️ Export ONNX (Dynamic)
+
+To convert the Pytorch model to ONNX model, run
+
 ```Shell
 python export_onnx_rt.py
 ```
 
+To predict disparity on images in a folder using ONNX model, run
+
+```Shell
+python demo_imgs_rt_onnxinfer.py
+```
+
 ## ✈️ Export TensorRT (Dynamic)
+
+To convert the ONNX model to TensorRT model, run
+
 ```Shell
 trtexec.exe --onnx=RTFFLONetDynamic.onnx --saveEngine=RTFFLONetDynamic.trt --minShapes=leftImage:1x3x480x640,rightImage:1x3x480x640 --optShapes=leftImage:1x3x736x1280,rightImage:1x3x736x1280 --maxShapes=leftImage:1x3x1088x1920,rightImage:1x3x1088x1920
 ```
