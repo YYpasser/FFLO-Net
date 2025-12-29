@@ -1,5 +1,5 @@
-from core_rt_export.rt_FFLONet import FFLONet
-from core_rt_export.utils.utils import InputPadder
+from core_export.FFLONet import FFLONet
+from core_export.utils.utils import InputPadder
 import torch
 from collections import OrderedDict
 import argparse
@@ -21,7 +21,6 @@ def file_size(path):
         return sum(f.stat().st_size for f in path.glob('**/*') if f.is_file()) / mb
     else:
         return 0.0
-
 
 def export_onnx(args):
     t = time.time()
@@ -66,11 +65,11 @@ def export_onnx(args):
 if __name__ == '__main__':
 
     parser = argparse.ArgumentParser()
-    parser.add_argument('--restore_ckpt', help="load the weights from a specific checkpoint", default='./pretrained_models/sceneflow/RTFFLONet.pth')
+    parser.add_argument('--restore_ckpt', help="load the weights from a specific checkpoint", default='./pretrained_models/sceneflow/FFLONet.pth')
     parser.add_argument('--mixed_precision', default=False, help='use mixed precision')
     parser.add_argument('--max_disp', type=int, default=192, help="max disp of geometry encoding volume")
     parser.add_argument('--valid_iters', type=int, default=32, help='number of flow-field updates during validation forward pass')
-    parser.add_argument('--onnx', default='./onnx_model/RTFFLONetDynamic.onnx', help='export onnx model name')
+    parser.add_argument('--onnx', default='./onnx_model/FFLONetDynamic.onnx', help='export onnx model name')
     parser.add_argument('--device', default='cuda:0', help='cuda device, i.e. 0 or 0,1,2,3')
     args = parser.parse_args()
 

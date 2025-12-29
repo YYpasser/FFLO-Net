@@ -58,7 +58,7 @@ def demo(args):
             disp = padder.unpad(disp)
             file_stem = os.path.basename(imfile1)
             file_stem = os.path.splitext(file_stem)[0]
-            plt.imsave(output_directory / f"{file_stem}_rt_sf.png", disp.squeeze(), cmap='jet')
+            plt.imsave(output_directory / f"{file_stem}_rt.png", disp.squeeze(), cmap='jet')
 
     logging.info(f"Saving file {output_directory.absolute()}.")
 

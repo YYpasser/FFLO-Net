@@ -1,6 +1,6 @@
 import torch
 import torch.nn.functional as F
-from core_rt_export.utils.utils import bilinear_sampler
+from core_export.utils.utils import bilinear_sampler
 
 
 class Combined_Geo_Encoding_Volume:
@@ -88,8 +88,6 @@ class Combined_Geo_Encoding_Volume:
     def corr(fmap1: torch.Tensor, fmap2: torch.Tensor) -> torch.Tensor:
         B, D, H, W1 = fmap1.shape
         _, _, _, W2 = fmap2.shape
-        fmap1 = fmap1.view(B, D, H, W1)
-        fmap2 = fmap2.view(B, D, H, W2)
         corr = torch.einsum('aijk,aijh->ajkh', fmap1, fmap2)
         corr = corr.reshape(B, H, W1, 1, W2).contiguous()
         return corr
