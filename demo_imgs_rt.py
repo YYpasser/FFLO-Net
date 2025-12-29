@@ -64,7 +64,7 @@ def demo(args):
 
 if __name__ == '__main__':
     parser = argparse.ArgumentParser()
-    parser.add_argument('--restore_ckpt', default='./pretrained_models/sceneflow/rt_FFLONet.pth', help="load the weights from a specific checkpoint")
+    parser.add_argument('--restore_ckpt', default='./pretrained_models/sceneflow/RTFFLONet.pth', help="load the weights from a specific checkpoint")
     parser.add_argument('--left_imgs', default='./demo-imgs/*Left.png', help="path to all first (left) frames") 
     parser.add_argument('--right_imgs', default='./demo-imgs/*Right.png', help="path to all second (right) frames")
     parser.add_argument('--output_directory', default='./demo-output', help="directory to save output")
